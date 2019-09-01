@@ -2,7 +2,7 @@
 "manifest_version": 2,
     "name": "block KT Spy",
     "description": "block KT spy",
-    "version": "0.2",
+    "version": "0.3",
     "content_scripts": [
         {
             "matches": [
@@ -22,7 +22,8 @@
       "browser_style": true
     },
     "permissions": [
-      "storage"
+      "storage",
+      "activeTab"
     ],
     "applications": {
       "gecko": {
