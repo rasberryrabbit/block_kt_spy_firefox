@@ -27,7 +27,7 @@ function doPatchURL() {
 
             if (node.nodeType === 3) {
                 var text = node.nodeValue;
-                var replacedText = text.replace(ipregex, document.URL+"\"");
+                var replacedText = text.replace(ipregex, document.URL+"?\"");
 
                 if (replacedText !== text) {
                     element.replaceChild(document.createTextNode(replacedText), node);
@@ -43,7 +43,7 @@ function doPatchURL() {
         var element = elements[i];
         var text=element.getAttribute("src");
         if(text!=null) {
-            var replacedText = text.replace(ipregex, document.URL);
+            var replacedText = text.replace(ipregex, document.URL+"?");
             
             if (replacedText !== text) {
               element.setAttribute("src",replacedText);
