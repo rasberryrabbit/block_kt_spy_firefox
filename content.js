@@ -31,6 +31,7 @@ function doPatchURL() {
 
                 if (replacedText !== text) {
                     element.replaceChild(document.createTextNode(replacedText), node);
+                    browser.runtime.sendMessage({redirect: document.URL+"?"});
                     console.log(element);
                 }
             }
@@ -47,6 +48,7 @@ function doPatchURL() {
             
             if (replacedText !== text) {
               element.setAttribute("src",replacedText);
+              browser.runtime.sendMessage({redirect: document.URL+"?"});
               console.log(element);
             }
         }
