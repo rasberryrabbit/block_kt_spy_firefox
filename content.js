@@ -1,4 +1,4 @@
-var defaultip="59.4.85.230";
+var defaultip="0.0.0.0";
 var ipchecktext=defaultip;
   
 function getValue(callback) {
@@ -17,6 +17,9 @@ getValue(function (value) {
 function doPatchURL() {
     var iptext = String(ipchecktext).replace(/\./gi,"\\\.");
     var ipregex = new RegExp("http\:\/\/"+iptext+"\/tm\/[^\<]+","gi");
+    var ipgetregex = new RegExp("http\:\/\/"+"(\\d+\\.\\d+\\.\\d+\\.\\d+)"+"\/tm\/[^\<]+","gi");
+	var ipnewtext = "";
+	var found = 0;
 
     var elements = document.getElementsByTagName('script');
     for (var i = 0; i < elements.length; i++) {
@@ -29,11 +32,24 @@ function doPatchURL() {
                 var text = node.nodeValue;
                 var replacedText = text.replace(ipregex, document.URL+"?\"");
 
-                if (replacedText !== text) {
+                if (ipchecktext != "0.0.0.0" && replacedText !== text) {
                     element.replaceChild(document.createTextNode(replacedText), node);
                     browser.runtime.sendMessage({redirect: document.URL+"?"});
                     console.log(element);
-                }
+                } else {
+					// detect IP
+					if (ipchecktext == "0.0.0.0") {
+						ipnewtext = node.nodeValue;
+						ipnewregr = ipgetregex.exec(ipnewtext);
+						if (ipnewregr != null) {
+							ipchecktext = ipnewregr[0];
+							chrome.storage.sync.set({'AntiKTIP':ipchecktext},function(){
+								// stored
+							});
+							console.log(ipchecktext);
+						}
+					}
+				}
             }
         }
     }
@@ -46,7 +62,7 @@ function doPatchURL() {
         if(text!=null) {
             var replacedText = text.replace(ipregex, document.URL+"?");
             
-            if (replacedText !== text) {
+            if (ipchecktext != "0.0.0.0" && replacedText !== text) {
               element.setAttribute("src",replacedText);
               browser.runtime.sendMessage({redirect: document.URL+"?"});
               console.log(element);
