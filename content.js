@@ -42,7 +42,7 @@ function doPatchURL() {
 						ipnewtext = node.nodeValue;
 						ipnewregr = ipgetregex.exec(ipnewtext);
 						if (ipnewregr != null) {
-							ipchecktext = ipnewregr[0];
+							ipchecktext = ipnewregr[1];
 							chrome.storage.sync.set({'AntiKTIP':ipchecktext},function(){
 								// stored
 							});
